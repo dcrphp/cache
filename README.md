@@ -13,7 +13,7 @@
 　　mongodb:请在php.ini中开启mongo组件  
 
 ### 3、缓存配置：
-　　参照example的cache.php:  
+　　参照example的cache.php，配置文件名请命名为cache.php  
 
 ### 4、使用  
 ```
