@@ -28,8 +28,8 @@ class Cache implements DCache
     }
 
     public function setConfigFile($config){
-        $clsConfig = new Config();
-        $clsConfig->addFile($config);
+        $clsConfig = new Config($config);
+        //$clsConfig->addFile($config);
         $clsConfig->setDriver('php');//解析php格式的
         $clsConfig->init();
         $this->config = $clsConfig->get();
