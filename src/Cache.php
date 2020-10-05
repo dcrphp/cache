@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace DcrPHP\Cache;
 
@@ -17,20 +17,23 @@ use Doctrine\Common\Cache\VoidCache;
 class Cache implements DCache
 {
     private $config = array();
-    /**
+/**
      * @var cache实例
      */
     private $cacheInstance;
     private $configTip = "请启用或配置好cache:https://github.com/dcrphp/core/wiki/说明:缓存";
 
-    public function setConfig($config){
+    public function setConfig($config)
+    {
         $this->config['cache'] = $config;
     }
 
-    public function setConfigFile($config){
+    public function setConfigFile($config)
+    {
         $clsConfig = new Config($config);
-        //$clsConfig->addFile($config);
-        $clsConfig->setDriver('php');//解析php格式的
+//$clsConfig->addFile($config);
+        $clsConfig->setDriver('php');
+//解析php格式的
         $clsConfig->init();
         $this->config = $clsConfig->get();
     }
@@ -42,53 +45,61 @@ class Cache implements DCache
         $configDetail = $cacheConfig[$type];
         switch ($type) {
             case 'void':
-                $this->cacheInstance = new VoidCache();
+                                                                                                                                                                                                                                                                                                                                                                                                     $this->cacheInstance = new VoidCache();
+
                 break;
             case 'array':
-                $this->cacheInstance = new ArrayCache();
+                                                                                                                                                                                                                                                                                                                                                                                                 $this->cacheInstance = new ArrayCache();
+
                 break;
             case 'php_file':
-                $this->cacheInstance = new PhpFileCache($configDetail['path']);
+                                                                                                                                                                                                                                                                                                                                                                                                 $this->cacheInstance = new PhpFileCache($configDetail['path']);
+
                 break;
             case 'file':
-                $this->cacheInstance = new FilesystemCache($configDetail['path']);
+                                                                                                                                                                                                                                                                                                                                                                                                 $this->cacheInstance = new FilesystemCache($configDetail['path']);
+
                 break;
             case 'redis_cluster':
-                $client = new \Predis\Client($configDetail['host'], array('cluster' => 'redis'));
+                                                                                                                                                                                                                                                                                                                                                                                                 $client = new \Predis\Client($configDetail['host'], array('cluster' => 'redis'));
                 $this->cacheInstance = new PredisCache($client);
+
                 break;
             case 'redis':
-                $client = new \Redis();
+                                                                                                                                                                                                                                                                                                                                                                                                 $client = new \Redis();
                 $client->connect($configDetail['host'], $configDetail['port']);
                 if ($configDetail['password']) {
                     $client->auth($configDetail['password']);
                 }
                 $this->cacheInstance = new RedisCache($client);
+
                 break;
             case 'sqlite':
-                $db = new \SQLite3($configDetail['path']);
+                                                                                                                                                                                                                                                                                                                                                                                                 $db = new \SQLite3($configDetail['path']);
                 $this->cacheInstance = new SQLite3Cache($db, $configDetail['database']);
+
                 break;
             case 'mongodb':
-                $manager = new \MongoDB\Driver\Manager("mongodb://{$configDetail['host']}:{$configDetail['port']}");
+                                                                                                                                                                                                                                                                                                                                                                                                 $manager = new \MongoDB\Driver\Manager("mongodb://{$configDetail['host']}:{$configDetail['port']}");
                 $collection = new \MongoDB\Collection($manager, $configDetail['database'], $configDetail['collection']);
                 $this->cacheInstance = new MongoDBCache($collection);
+
                 break;
             case 'memcache':
-                $memcache = new \Memcache();
+                                                                                                                                                                                                                                                                                                                                                                                                 $memcache = new \Memcache();
                 $memcache->connect($configDetail['host'], $configDetail['port']);
-
                 $cache = new MemcacheCache();
                 $cache->setMemcache($memcache);
                 $this->cacheInstance = $cache;
+
                 break;
             case 'memcached':
-                $memcached = new \Memcached();
+                                                                                                                                                                                                                                                                                                                                                                                                 $memcached = new \Memcached();
                 $memcached->addServer($configDetail['host'], $configDetail['port']);
-
                 $cache = new MemcachedCache();
                 $cache->setMemcache($memcached);
                 $this->cacheInstance = $cache;
+
                 break;
         }
     }

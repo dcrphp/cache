@@ -1,8 +1,7 @@
 <?php
+
 require_once("../vendor/autoload.php");
-
 use DcrPHP\Cache\Cache;
-
 ini_set('display_errors', 'on');
 //加载配置
 $clsCache = new Cache();
